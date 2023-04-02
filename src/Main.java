@@ -1,27 +1,24 @@
 import connectionApi.ApiConnection;
-import connectionApi.JsonConverter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.IOException;
 
 public class Main extends Application {
     public static void main(String[] args) throws IOException {
-        //launch(args);
-        String url = "http://api.nbp.pl/api/exchangerates/rates/a/";
-        ApiConnection apiConnection = new ApiConnection(url);
-        JsonConverter jsonConverter = new JsonConverter();
-        //StringBuilder sb = apiConnection.getRate("euro", "gbp", 5d);
-        String sb = apiConnection.getRate("gbp");
-        Double data = jsonConverter.getDataConversion(sb);
-        System.out.println("the result conversion is " + data);
+       //launch(args);
+        String urlRate = "http://api.nbp.pl/api/exchangerates/rates/a/";
+        //String urlSymbols = "https://api.nbp.pl/api/exchangerates/tables/a";
+        ApiConnection apiConnection = new ApiConnection(urlRate);
+        //ApiConnection apiConnectionS = new ApiConnection(urlSymbols);
+        String json = apiConnection.jsonToString("gbp");
+        String json2 = apiConnection.jsonToString("chf");
+        System.out.println("The " + apiConnection.getSingleRate(json).getSignification() + "(" + apiConnection.getSingleRate(json).getSymbol() + ") rate is " + apiConnection.getSingleRate(json).getRate().toString());
+        System.out.println("The " + apiConnection.getSingleRate(json2).getSignification() + "(" + apiConnection.getSingleRate(json2).getSymbol() + ") rate is " + apiConnection.getSingleRate(json2).getRate().toString());
+        System.out.println("The result conversion is: " + (apiConnection.getSingleRate(json).getRate() / apiConnection.getSingleRate(json2).getRate()) * 5.5);
     }
 
     @Override
