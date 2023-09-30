@@ -45,8 +45,7 @@ public class ApiConnection {
             Double mid = rates.getJSONObject(0).getDouble("mid");
             String symbol = jsonO.getString("code");
             String signification = jsonO.getString("currency");
-            Currency coin = new Currency(symbol, signification, mid);
-            return coin;
+            return new Currency(symbol, signification, mid);
         }
     }
 
